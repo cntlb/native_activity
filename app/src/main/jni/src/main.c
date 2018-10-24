@@ -18,6 +18,7 @@
 //BEGIN_INCLUDE(all)
 #include <jni.h>
 #include <errno.h>
+#include <malloc.h>
 
 #include <EGL/egl.h>
 #include <GLES/gl.h>
@@ -170,8 +171,8 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
     struct engine* engine = (struct engine*)app->userData;
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
         engine->animating = 1;
-        engine->state.x = AMotionEvent_getX(event, 0);
-        engine->state.y = AMotionEvent_getY(event, 0);
+        engine->state.x = (int)AMotionEvent_getX(event, 0);
+        engine->state.y = (int)AMotionEvent_getY(event, 0);
         return 1;
     }
     return 0;
@@ -221,6 +222,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
             // Also stop animating.
             engine->animating = 0;
             engine_draw_frame(engine);
+            break;
+        default:
             break;
     }
 }

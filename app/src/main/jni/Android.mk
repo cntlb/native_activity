@@ -17,9 +17,10 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := native
-LOCAL_SRC_FILES := main.c
+LOCAL_SRC_FILES := $(wildcard $(LOCAL_PATH)/src/*.c $(LOCAL_PATH)/src/*.cpp)
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 
 include $(BUILD_SHARED_LIBRARY)
 
